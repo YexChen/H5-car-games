@@ -139,6 +139,8 @@
 		var frequency = 100;
 		//残机数量
 		var canji = 100;
+		//敌机血量
+		var hp = 3000;
 		document.onkeydown = function(evt){
 			//console.log(evt.keyCode);
 			if(evt.keyCode == 39){
@@ -215,7 +217,6 @@
 					zijidanssss.style.top = ziji_temp.style.top;
 					zijinum ++;
 					ziji_temp_y = (parseInt(ziji_temp_y) - 1000) + "px";
-					
 
 					//console.log(zijidanssss);
 					$(zijidanssss).animate({
@@ -363,6 +364,19 @@
 				if((leftjudge_m - leftjudge2_e) < 16 && (leftjudge_m - leftjudge2_e) > (-20) && (topjudge_m - topjudge2_e) <16 && (topjudge_m - topjudge2_e) > (-20) &&(frames - beidan) > 300){
 				 	canji--;
 				 	beidan = frames;
+				}
+			}
+			//敌机子弹判定(自己弹)
+			var diji = document.getElementsByClassName("diji")[0];
+			var temp3 = document.getElementsByClassName("zijidan");
+			for(var i =1; i<temp3.length;i++){
+				var leftjudge3_e = parseInt(diji.style.left);
+				var leftjudge3_m = parseInt(temp3[i].style.left);
+				var topjudge3_e = parseInt(diji.style.top);
+				var topjudge3_m = parseInt(temp3[i].style.top);
+				//这里适当拉长宽容值
+				if((leftjudge3_e - leftjudge3_m) < 21 && (leftjudge3_m - leftjudge3_e) < 43 && (topjudge3_e - topjudge3_m) < 15 && (topjudge3_m - topjudge3_e) < 60){
+					console.log("敌机中弹！");
 				}
 			}
 			}
