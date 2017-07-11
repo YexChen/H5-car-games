@@ -94,6 +94,22 @@
 				margin-left : 15px;
 				margin-top : -15px;
 			}
+			.hps{
+				position : absolute;
+				border-radius : 10px;
+				width : 600px;
+				height : 10px;
+				top : 80px;
+				left : 380px;
+			}
+			.hp{
+				position : absolute;
+				background-color : #CB6B5F;
+				border-radius : 10px;
+				width : 600px;
+				height : 10px;
+
+			}
 		</style>
 		<script src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -118,7 +134,12 @@
 			<p>被弹有三秒无敌，加油~</p>
 			<p>残机数:<p class = "canji">100</p></p>
 		</div>
+		<div class = "hps">
+			<div class = "hp"></div>
+		</div>
 		<script>
+		//创建循环实例
+		var myRequest;
 		//按键监听函数
 		//使用另外一套监听，这套函数暂时封闭
 		var getLeft = false;
@@ -376,7 +397,7 @@
 				var topjudge3_m = parseInt(temp3[i].style.top);
 				//这里适当拉长宽容值
 				if((leftjudge3_e - leftjudge3_m) < 21 && (leftjudge3_m - leftjudge3_e) < 43 && (topjudge3_e - topjudge3_m) < 15 && (topjudge3_m - topjudge3_e) < 60){
-					console.log("敌机中弹！");
+					hp--;
 				}
 			}
 			}
@@ -394,6 +415,22 @@
 		//看板功能
 		function dashboard(){
 			$(".canji").text(canji);
+		}
+		//血条计算
+		function hpanimation(){
+				var percents = hp/30 + "%" ;
+				//console.log(percents);
+			$(".hp").animate({ 
+				"width" : percents
+			},1)
+		}
+		//游戏结束
+		function gameover(){
+			if(hp < 10){
+				//cancel出现了兼容问题
+				console.log("游戏应该结束了吧。。")
+				cancelAnimationFrame(myRequest);
+			}
 		}
 		//animate程序
 		function animates(){
@@ -413,14 +450,19 @@
 				collision();
 				//看板功能
 				dashboard();
-				requestAnimationFrame(animates);
+				//血条动画
+				hpanimation();
+				//如果血条降到0停止游戏
+				gameover();
+
+				myRequest =  requestAnimationFrame(animates);
 			};
 		//主程序
 		$(document).ready(function(){
 			 //初始化（多的话都放函数里）
 			 document.getElementsByClassName("car")[0].style.left = 0 + "px";	
 			 document.getElementsByClassName("car")[0].style.top = 0 + "px";	
-			 requestAnimationFrame(animates);
+			 myRequest = requestAnimationFrame(animates);
 		});
 		// document.
 		</script>
