@@ -140,6 +140,8 @@
 		<script>
 		//创建循环实例
 		var myRequest;
+		//游戏结束标杆
+		var gameovers = false;
 		//按键监听函数
 		//使用另外一套监听，这套函数暂时封闭
 		var getLeft = false;
@@ -428,8 +430,26 @@
 		function gameover(){
 			if(hp < 10){
 				//cancel出现了兼容问题
-				console.log("游戏应该结束了吧。。")
 				cancelAnimationFrame(myRequest);
+				gameovers = true;
+				var death = 100 -canji;
+				var rank = "";
+				if(death == 0){
+					rank = "哇，完美过关,你就是传说中的触手吗！！！！"
+				}
+				if(death < 5 && death > 0){
+					rank = "厉害了我的哥！"+ "\n" +"您的级别为 : <span class = "rank1">鬼神</span>";
+				}
+				if(death < 11 && death > 4){
+					rank = "居然到了这一步。。真是没想到，" + "\n" + "您的级别为 ：<span class = "rank2">天狗</span>";
+				}
+				if(death < 21 && death > 10){
+					rank = "可以了可以了，如果不是东方厨的话算是不错的成绩了，入我东方神教吧，" + "\n" + "您的级别为 ：<span class = "rank3">河童</span>";
+				}
+				if(death > 20){
+					rank = "嘛，新手同志多多努力吧，也还可以啦" + "\n" + "您的级别为 ：<span class = "rank4">人间之里足轻</span>";
+ 				}
+				$(".dashboard").html("游戏结束，谢谢游玩~" + "\n"+ rank);
 			}
 		}
 		//animate程序
@@ -454,7 +474,8 @@
 				hpanimation();
 				//如果血条降到0停止游戏
 				gameover();
-
+				//判断游戏是否结束
+				if(!gameovers)
 				myRequest =  requestAnimationFrame(animates);
 			};
 		//主程序
