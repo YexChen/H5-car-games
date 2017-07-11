@@ -110,6 +110,18 @@
 				height : 10px;
 
 			}
+			.rank1{
+				color : #F92672;
+			}
+			.rank2{
+				color : #E6DB74;
+			}
+			.rank3{
+				color : #A6E22E;
+			}
+			.rank4{
+				color : #66D9EF;
+			}
 		</style>
 		<script src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -131,7 +143,7 @@
 		</div>
 		<div class = "dashboard">
 			<p>按Z射击，按住shift低速移动</p>
-			<p>被弹有三秒无敌，加油~</p>
+			<p>被弹有消弹,加油喔~</p>
 			<p>残机数:<p class = "canji">100</p></p>
 		</div>
 		<div class = "hps">
@@ -374,9 +386,10 @@
 				var leftjudge_m = parseInt(ziji[0].style.left);
 				var topjudge_e = parseInt(temp[i].style.top);
 				var topjudge_m = parseInt(ziji[0].style.top); 
-				if((leftjudge_m - leftjudge_e) < 16 && (leftjudge_m - leftjudge_e) > (-20) && (topjudge_m - topjudge_e) <16 && (topjudge_m - topjudge_e) > (-20) &&(frames - beidan) > 300){
+				if((leftjudge_m - leftjudge_e) < 16 && (leftjudge_m - leftjudge_e) > (-20) && (topjudge_m - topjudge_e) <16 && (topjudge_m - topjudge_e) > (-20) /*&&(frames - beidan) > 300*/){
 				 	canji--;
 				 	beidan = frames;
+				 	$(temp).remove();
 				};
 			}
 			//自机狙判定
@@ -384,9 +397,10 @@
 			for(var i = 0; i< temp2.length;i++){
 				var leftjudge2_e = parseInt(temp2[i].style.left);
 				var topjudge2_e = parseInt(temp2[i].style.top);
-				if((leftjudge_m - leftjudge2_e) < 16 && (leftjudge_m - leftjudge2_e) > (-20) && (topjudge_m - topjudge2_e) <16 && (topjudge_m - topjudge2_e) > (-20) &&(frames - beidan) > 300){
+				if((leftjudge_m - leftjudge2_e) < 16 && (leftjudge_m - leftjudge2_e) > (-20) && (topjudge_m - topjudge2_e) <16 && (topjudge_m - topjudge2_e) > (-20)/* &&(frames - beidan) > 300*/){
 				 	canji--;
 				 	beidan = frames;
+				 	$(temp2).remove();
 				}
 			}
 			//敌机子弹判定(自己弹)
@@ -400,6 +414,7 @@
 				//这里适当拉长宽容值
 				if((leftjudge3_e - leftjudge3_m) < 21 && (leftjudge3_m - leftjudge3_e) < 43 && (topjudge3_e - topjudge3_m) < 15 && (topjudge3_m - topjudge3_e) < 60){
 					hp--;
+					temp3[i].style.display = "none";
 				}
 			}
 			}
@@ -435,19 +450,19 @@
 				var death = 100 -canji;
 				var rank = "";
 				if(death == 0){
-					rank = "哇，完美过关,你就是传说中的触手吗！！！！"
+					rank = "哇，完美过关,你就是传说中的触手吗！！！！(或者说开挂了？)"
 				}
 				if(death < 5 && death > 0){
-					rank = "厉害了我的哥！"+ "\n" +"您的级别为 : <span class = "rank1">鬼神</span>";
+					rank = "厉害了我的哥！"+ "\n" +"您的级别为 : <span class = 'rank1'>鬼神</span>" ;
 				}
 				if(death < 11 && death > 4){
-					rank = "居然到了这一步。。真是没想到，" + "\n" + "您的级别为 ：<span class = "rank2">天狗</span>";
+					rank = "居然到了这一步。。真是没想到，" + "\n" + "您的级别为 ：<span class = 'rank2'>天狗</span>";
 				}
 				if(death < 21 && death > 10){
-					rank = "可以了可以了，如果不是东方厨的话算是不错的成绩了，入我东方神教吧，" + "\n" + "您的级别为 ：<span class = "rank3">河童</span>";
+					rank = "可以了可以了，如果不是东方厨的话算是不错的成绩了，入我东方神教吧，" + "\n" + "您的级别为 ：<span class = 'rank3'>河童</span>";
 				}
 				if(death > 20){
-					rank = "嘛，新手同志多多努力吧，也还可以啦" + "\n" + "您的级别为 ：<span class = "rank4">人间之里足轻</span>";
+					rank = "嘛，新手同志多多努力吧，也还可以啦" + "\n" + "您的级别为 ：<span class = 'rank4'>人间之里足轻</span>";
  				}
 				$(".dashboard").html("游戏结束，谢谢游玩~" + "\n"+ rank);
 			}
