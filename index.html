@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv = "Content-Type" content = "text/html;charset = UTF-8">
+		<title>小车游戏</title>
+		<style>
+			*{
+				margin : 0;
+				padding : 0;
+			}
+			html,body{
+				width : 100%;
+				height : 100%;
+				overflow: hidden;
+			}
+			.road{
+				background-color : #EEEEEE;
+				width : 50%;
+				height : 80%;
+				margin : auto;
+				margin-top : 5%;
+				display : -webkit-box;
+				overflow : hidden;
+				position : relative;
+				z-index : 0;
+
+			}
+			.track{
+				z-index : 1;
+				-webkit-box-flex : 1;
+				width : 20%;
+				height : 200%;
+				margin-top : -100%;
+				border-right : 3px dashed #0d0d0d;
+			}
+			.tracklast{
+				border-right : 0px;
+			}
+			.ziji{
+				z-index : 100;
+				position : absolute;
+				background-image : url("image/ziji.png");
+				width : 38px;
+				height : 45px;
+				margin-left : -10px;
+				margin-top : -10px;
+			}
+			.car{
+				background: url(image/huaji.png);
+				z-index : 200;
+				width : 20px;
+				height : 20px;
+				position : absolute;
+				top : 100px;
+				left : 10px;
+				background-size : 100% 100%;
+			}
+			.enemy{
+				position: absolute;
+				width : 16px;
+				height : 16px;
+				background-image : url(image/bullet.png);
+				top : 100px;
+				left : 0px;
+			}
+		</style>
+		<script src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	</head>
+
+	<body>
+		<div class = "road">
+			<div class = "jishu"></div>
+			<div class = "track"></div>
+			<div class = "track"></div>
+			<div class = "track"></div>
+			<div class = "track"></div>
+			<div class = "track tracklast"></div>
+			<div class = "car">
+				<div class = "ziji"></div>
+			</div>
+			<!-- <div class = "enemy"></div> -->
+
+		</div>
+		<script>
+		//按键监听函数
+		//使用另外一套监听，这套函数暂时封闭
+		var getLeft = false;
+		var getRight = false;
+		var getBottom = false;
+		var getTop = false;
+		var speed = 10;
+		//shift减速
+		var limitspeed = false;
+		//监听帧数
+		var frames = 0;
+		//监听被弹无敌时间
+		var beidan = 0;
+		//难度系数，生成子弹的帧数，初始100
+		var frequency = 100;
+		document.onkeydown = function(evt){
+			//console.log(evt.keyCode);
+			if(evt.keyCode == 39){
+				getRight = true;
+			}
+			else if(evt.keyCode == 37){
+				getLeft = true;
+			}
+			 else if(evt.keyCode == 38){
+			 	getTop = true;
+			 }
+			 else if(evt.keyCode == 40){
+			 	getBottom = true;
+			 }
+			 else if(evt.keyCode == 16){
+			 	limitspeed = true;
+			 }
+		}
+
+		document.onkeyup = function(evt){
+			if(evt.keyCode == 39){
+				getRight = false;
+			}
+			else if(evt.keyCode == 37){
+				getLeft = false;
+			}
+			 else if(evt.keyCode == 38){
+			 	getTop = false;
+			 }
+			 else if(evt.keyCode == 40){
+			 	getBottom = false;
+			 }
+			 else if(evt.keyCode == 16){
+			 	limitspeed = false;
+			 }
+		}
+
+		function moving(){
+			if(getRight == true)
+				document.getElementsByClassName("car")[0].style.left = parseInt(document.getElementsByClassName("car")[0].style.left ? document.getElementsByClassName("car")[0].style.left : 0) + speed + "px";
+			if(getLeft == true)
+				document.getElementsByClassName("car")[0].style.left = parseInt(document.getElementsByClassName("car")[0].style.left ? document.getElementsByClassName("car")[0].style.left : 0) - speed + "px";
+			if(getTop == true)
+				document.getElementsByClassName("car")[0].style.top = parseInt(document.getElementsByClassName("car")[0].style.top ? document.getElementsByClassName("car")[0].style.top : 0) - speed + "px";
+			if(getBottom == true)
+				document.getElementsByClassName("car")[0].style.top = parseInt(document.getElementsByClassName("car")[0].style.top ? document.getElementsByClassName("car")[0].style.top : 0) + speed + "px";
+			if(limitspeed == true){
+			 	speed = 3;
+			 }
+			if(limitspeed == false){
+			 	speed = 10;
+			 }
+		}
+		//生成敌人
+		function createEnemy(){
+			if(frames % frequency == 0){
+			var x = Math.random() * 500;
+			var y = Math.random() * 100;
+
+			document.createElement("div")
+			var temp = "<div class = 'enemy'></div>"
+			temp = $(temp).appendTo($(".road"));
+			temp[0].style.left = x + "px";
+			temp[0].style.top = y + "px";
+			if(frequency > 5){
+				frequency -= 3;
+				//console.log(frequency);
+			}
+			temp.animate({
+				"top" : "1000px"
+			},5000,function(){
+				this.remove();
+			});
+
+
+		}
+		}
+		//计算碰撞
+		function collision(){
+			var temp = document.getElementsByClassName("enemy");
+			var ziji = document.getElementsByClassName("car");
+			for(var i = 0; i< temp.length ; i++){
+				var leftjudge_e = parseInt(temp[i].style.left);
+				var leftjudge_m = parseInt(ziji[0].style.left);
+				var topjudge_e = parseInt(temp[i].style.top);
+				var topjudge_m = parseInt(ziji[0].style.top); 
+				if((leftjudge_m - leftjudge_e) < 16 && (leftjudge_m - leftjudge_e) > (-20) && (topjudge_m - topjudge_e) <16 && (topjudge_m - topjudge_e) > (-20) &&(frames - beidan) > 300){
+				 	console.log("被弹了?");
+				 	beidan = frames;
+				};
+			}
+		}
+		//跑动的跑道
+		var running = function(){
+			$(".track").animate({
+				"margin-top" : '0',
+			},"normal","swing",function(){
+				$(".track").animate({
+				"margin-top" : '-100%'
+			},"normal","swing",running());
+			})
+		}
+		running();
+		//animate程序
+		function animates(){
+				//计算帧数
+				frames++;
+				//移动
+				moving();
+				//创建敌人
+				createEnemy();
+				//碰撞
+				collision();
+				requestAnimationFrame(animates);
+			};
+		//主程序
+		$(document).ready(function(){
+			 //初始化（多的话都放函数里）
+			 document.getElementsByClassName("car")[0].style.left = 0 + "px";	
+			 document.getElementsByClassName("car")[0].style.top = 0 + "px";	
+			 requestAnimationFrame(animates);
+		});
+		// document.
+		</script>
+	</body>
+
+</html>
