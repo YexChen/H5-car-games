@@ -63,6 +63,37 @@
 				top : 100px;
 				left : 0px;
 			}
+			.diji{
+				position : absolute;
+				background-image : url("image/xiaotong.png");
+				width  : 33px;
+				height : 60px;
+				top : -200px;
+				left : 400px;
+			}
+			.zijiju{
+				position : absolute;
+				background-image : url("image/zijiju.png");
+				width : 16px;
+				height : 16px;
+				top : 0px;
+				left : 0px;
+			}
+			.dashboard{
+				position : absolute;
+				width : 300px;
+				height : 600px;
+				top : 100px;
+				left : 50px;
+			}
+			.zijidan{
+				position : absolute;
+				background-image : url(image/zijidan.png);
+				width : 11px;
+				height : 15px;
+				margin-left : 15px;
+				margin-top : -15px;
+			}
 		</style>
 		<script src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -71,16 +102,21 @@
 	<body>
 		<div class = "road">
 			<div class = "jishu"></div>
+<!-- 			<div class = "track"></div>
 			<div class = "track"></div>
 			<div class = "track"></div>
 			<div class = "track"></div>
-			<div class = "track"></div>
-			<div class = "track tracklast"></div>
+			<div class = "track tracklast"></div> -->
 			<div class = "car">
 				<div class = "ziji"></div>
 			</div>
+			<div class = "diji"></div>
 			<!-- <div class = "enemy"></div> -->
-
+		</div>
+		<div class = "dashboard">
+			<p>按Z射击，按住shift低速移动</p>
+			<p>被弹有三秒无敌，加油~</p>
+			<p>残机数:<p class = "canji">100</p></p>
 		</div>
 		<script>
 		//按键监听函数
@@ -89,7 +125,10 @@
 		var getRight = false;
 		var getBottom = false;
 		var getTop = false;
+		var getShot = false;
 		var speed = 10;
+		//全局自机弹数
+		var zijinum = 0
 		//shift减速
 		var limitspeed = false;
 		//监听帧数
@@ -98,6 +137,8 @@
 		var beidan = 0;
 		//难度系数，生成子弹的帧数，初始100
 		var frequency = 100;
+		//残机数量
+		var canji = 100;
 		document.onkeydown = function(evt){
 			//console.log(evt.keyCode);
 			if(evt.keyCode == 39){
@@ -115,6 +156,9 @@
 			 else if(evt.keyCode == 16){
 			 	limitspeed = true;
 			 }
+			 else if(event.keyCode == 90){
+					getShot = true;
+			 }		
 		}
 
 		document.onkeyup = function(evt){
@@ -133,6 +177,9 @@
 			 else if(evt.keyCode == 16){
 			 	limitspeed = false;
 			 }
+			 else if(event.keyCode == 90){
+					getShot = false;
+			 }			
 		}
 
 		function moving(){
@@ -151,13 +198,43 @@
 			 	speed = 10;
 			 }
 		}
+		//生成子弹
+		function shooting(){
+			if(getShot == true){
+
+					//得到自机数据
+					var ziji_temp = document.getElementsByClassName("car")[0];
+					var ziji_temp_x = ziji_temp.style.left
+					var ziji_temp_y = ziji_temp.style.top
+
+					var zijidan = "<div class = 'zijidan'></div>";
+					var mybg = $(".road");
+					$(zijidan).appendTo(mybg);
+					var zijidanssss = document.getElementsByClassName("zijidan")[zijinum];
+					zijidanssss.style.left = ziji_temp.style.left;
+					zijidanssss.style.top = ziji_temp.style.top;
+					zijinum ++;
+					ziji_temp_y = (parseInt(ziji_temp_y) - 1000) + "px";
+					
+
+					//console.log(zijidanssss);
+					$(zijidanssss).animate({
+						left : ziji_temp.style.left,
+						top : ziji_temp_y
+					},"normal","swing",function(){
+						setTimeout(function(){
+							$(zijidanssss).remove();
+							zijinum--;}
+							,1000);
+					});
+				}
+			}
 		//生成敌人
 		function createEnemy(){
 			if(frames % frequency == 0){
-			var x = Math.random() * 500;
+			var x = Math.random() * 800;
 			var y = Math.random() * 100;
 
-			document.createElement("div")
 			var temp = "<div class = 'enemy'></div>"
 			temp = $(temp).appendTo($(".road"));
 			temp[0].style.left = x + "px";
@@ -175,6 +252,95 @@
 
 		}
 		}
+
+		//生成第二套敌人
+		function createEnemy2(){
+			if(frames % 200  == 0){
+			var diji = $(".diji")[0];
+			var x = parseInt(diji.style.left);
+			var y = parseInt(diji.style.top);
+
+			//获取自机x,y
+			var zijit = $(".car")[0];
+			var myx = parseInt(zijit.style.left) + "px" ;
+			var myy = parseInt(zijit.style.top) + "px" ;
+			
+			var temp = "<div class = 'zijiju'></div>";
+			temp = $(temp).appendTo($(".road"));
+			temp[0].style.top = y + "px";
+			temp[0].style.left = x + "px";
+
+			temp.animate({
+				"top" : myy,
+				"left" : myx 
+			},1000,function(){
+				this.remove();
+			});
+
+			}
+			//第二颗自机弹
+			if(frames % 200  == 0){
+			 diji = $(".diji")[0];
+			 x = parseInt(diji.style.left) + 50;
+			 y = parseInt(diji.style.top);
+
+			//获取自机x,y
+			 zijit = $(".car")[0];
+			 myx = parseInt(zijit.style.left) + "px" ;
+			 myy = parseInt(zijit.style.top) + "px" ;
+			
+			 temp = "<div class = 'zijiju'></div>";
+			temp = $(temp).appendTo($(".road"));
+			temp[0].style.top = y + "px";
+			temp[0].style.left = x + "px";
+
+			temp.animate({
+				"top" : myy,
+				"left" : myx 
+			},1000,function(){
+				this.remove();
+			});
+
+			}
+			//第三颗自机弹
+			if(frames % 200  == 0){
+			 diji = $(".diji")[0];
+			 x = parseInt(diji.style.left) -50;
+			 y = parseInt(diji.style.top);
+
+			//获取自机x,y
+			 zijit = $(".car")[0];
+			 myx = parseInt(zijit.style.left) + "px" ;
+			 myy = parseInt(zijit.style.top) + "px" ;
+			
+			 temp = "<div class = 'zijiju'></div>";
+			temp = $(temp).appendTo($(".road"));
+			temp[0].style.top = y + "px";
+			temp[0].style.left = x + "px";
+
+			temp.animate({
+				"top" : myy,
+				"left" : myx 
+			},1000,function(){
+				this.remove();
+			});
+
+			}
+		}
+		//敌人移动
+		function enemyMoving(){
+			if(frames == 1){
+				$(".diji").animate({
+					"top" : "100px"
+				},2000)
+			}
+			else if((frames % 200) ==0){
+				$(".diji").animate({
+					"top" : Math.random()*300 + "px",
+					"left" : Math.random()*800 + "px"
+				},2000)
+			}
+		}
 		//计算碰撞
 		function collision(){
 			var temp = document.getElementsByClassName("enemy");
@@ -185,11 +351,21 @@
 				var topjudge_e = parseInt(temp[i].style.top);
 				var topjudge_m = parseInt(ziji[0].style.top); 
 				if((leftjudge_m - leftjudge_e) < 16 && (leftjudge_m - leftjudge_e) > (-20) && (topjudge_m - topjudge_e) <16 && (topjudge_m - topjudge_e) > (-20) &&(frames - beidan) > 300){
-				 	console.log("被弹了?");
+				 	canji--;
 				 	beidan = frames;
 				};
 			}
-		}
+			//自机狙判定
+			var temp2 = document.getElementsByClassName("zijiju");
+			for(var i = 0; i< temp2.length;i++){
+				var leftjudge2_e = parseInt(temp2[i].style.left);
+				var topjudge2_e = parseInt(temp2[i].style.top);
+				if((leftjudge_m - leftjudge2_e) < 16 && (leftjudge_m - leftjudge2_e) > (-20) && (topjudge_m - topjudge2_e) <16 && (topjudge_m - topjudge2_e) > (-20) &&(frames - beidan) > 300){
+				 	canji--;
+				 	beidan = frames;
+				}
+			}
+			}
 		//跑动的跑道
 		var running = function(){
 			$(".track").animate({
@@ -201,16 +377,28 @@
 			})
 		}
 		running();
+		//看板功能
+		function dashboard(){
+			$(".canji").text(canji);
+		}
 		//animate程序
 		function animates(){
 				//计算帧数
 				frames++;
 				//移动
 				moving();
-				//创建敌人
+				//射击子弹
+				shooting();
+				//创建敌人子弹
 				createEnemy();
+				//创建第二次敌人
+				createEnemy2();
+				//敌方角色移动
+				enemyMoving();
 				//碰撞
 				collision();
+				//看板功能
+				dashboard();
 				requestAnimationFrame(animates);
 			};
 		//主程序
