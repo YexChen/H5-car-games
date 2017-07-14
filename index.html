@@ -82,6 +82,7 @@
 				height : 60px;
 				top : -200px;
 				left : 400px;
+				background-size : 100% 100%;
 			}
 			.zijiju{
 				position : absolute;
@@ -106,6 +107,16 @@
 				margin-left : 15px;
 				margin-top : -15px;
 				opacity: 1;
+			}
+			.lihui{
+				z-index : 10000;
+				position : absolute;
+				width : 43%;
+				height : 90%;
+				top : -50%;
+				left : 125%;
+				background-size : 100% 100%;
+				background-image : url(image/xiaoyelihui.png);
 			}
 			.hps{
 				position : absolute;
@@ -152,6 +163,7 @@
 				<div class = "ziji"></div>
 			</div>
 			<div class = "diji"></div>
+			<div class = "lihui"></div>
 			<!-- <div class = "enemy"></div> -->
 		</div>
 		<div class = "dashboard">
@@ -191,6 +203,8 @@
 		var canji = 100;
 		//敌机血量
 		var hp = 3000;
+		//boss计数
+		var boss = 1;
 		document.onkeydown = function(evt){
 			//console.log(evt.keyCode);
 			if(evt.keyCode == 39){
@@ -281,7 +295,7 @@
 			}
 		//生成敌人
 		function createEnemy(){
-			if(frames % frequency == 0){
+			if(frames % frequency == 0 && boss == 1){
 			var x = Math.random() * 800;
 			var y = Math.random() * 100;
 
@@ -316,7 +330,7 @@
 
 		//生成第二套敌人
 		function createEnemy2(){
-			if(frames % 200  == 0){
+			if(frames % 200  == 0 && boss == 1){
 			var diji = $(".diji")[0];
 			var x = parseInt(diji.style.left);
 			var y = parseInt(diji.style.top);
@@ -340,7 +354,7 @@
 
 			}
 			//第二颗自机弹
-			if(frames % 200  == 0){
+			if(frames % 200  == 0 && boss == 1){
 			 diji = $(".diji")[0];
 			 x = parseInt(diji.style.left) + 50;
 			 y = parseInt(diji.style.top);
@@ -364,7 +378,7 @@
 
 			}
 			//第三颗自机弹
-			if(frames % 200  == 0){
+			if(frames % 200  == 0 && boss == 1){
 			 diji = $(".diji")[0];
 			 x = parseInt(diji.style.left) -50;
 			 y = parseInt(diji.style.top);
@@ -390,7 +404,7 @@
 		}
 		//敌人移动
 		function enemyMoving(){
-			if(frames == 1){
+			if(frames == 1 ){
 				$(".diji").animate({
 					"top" : "100px"
 				},2000)
@@ -486,6 +500,39 @@
 				"width" : percents
 			},1)
 		}
+		//游戏继续，咲夜登场
+		function gamecontinue(){
+			if(hp < 10){
+				//参数变动
+				hp = 3000;
+				boss = 2;
+				//小桶飞出战场并且销毁
+				$(".diji").animate({
+					"top" : "-100px",
+					"left" : "50%" 
+				},1000,function(){
+					$(".diji")[0].style.backgroundImage = "url('image/xiaoye.png')";
+					$(".diji").animate({
+						"top" : "200px"
+					},3000)
+				});
+				//boss立绘宣言
+				$(".lihui").animate({
+					"top" : "0%",
+					"left" : "35%"
+				},2000,function(){
+					$(".lihui").animate({
+						"top" : "10%",
+						"left" : "20%"
+				},500,function(){
+					$(".lihui").animate({
+						"top" : "100%",
+						"left" : "-200%"						
+					},2000);
+				})
+		});
+		}
+	}
 		//游戏结束
 		function gameover(){
 			if(hp < 10){
@@ -514,6 +561,7 @@
 		}
 		//animate程序
 		function animates(){
+				//临时数据，随时可以删
 				//计算帧数
 				frames++;
 				//移动
@@ -533,7 +581,8 @@
 				//血条动画
 				hpanimation();
 				//如果血条降到0停止游戏
-				gameover();
+				//gameover();
+				gamecontinue();
 				//判断游戏是否结束
 				if(!gameovers)
 				myRequest =  requestAnimationFrame(animates);
