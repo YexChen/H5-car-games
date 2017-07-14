@@ -105,6 +105,7 @@
 				height : 15px;
 				margin-left : 15px;
 				margin-top : -15px;
+				opacity: 1;
 			}
 			.hps{
 				position : absolute;
@@ -414,7 +415,7 @@
 				 	canji--;
 				 	beidan = frames;
 				 	//消除所有弹幕动画
-				 	for(var j = 0;j < $(".enemy").length;j = 0 ){
+				 	for(var j = 0;j < $(".enemy").length;j = 0){
 				 	var temps = "<div class = 'guangyun'></div>";
 				 	temps = $(temps).appendTo($(".road"));
 				 	temps[0].style.top = $(temp)[j].style.top;
@@ -457,6 +458,8 @@
 				if((leftjudge3_e - leftjudge3_m) < 21 && (leftjudge3_m - leftjudge3_e) < 43 && (topjudge3_e - topjudge3_m) < 15 && (topjudge3_m - topjudge3_e) < 60){
 					hp--;
 					temp3[i].style.display = "none";
+					//生成擦弹效果
+
 				}
 			}
 			}
