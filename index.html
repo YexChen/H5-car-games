@@ -292,7 +292,7 @@
 				"width" : "20px",
 				"height" : "20px",
 				"opacity" : 1
-			},500,function(){
+			},200,function(){
 				this.remove();
 				//console.log(this);
 
@@ -307,7 +307,6 @@
 				"top" : "1000px"
 			},5000,function(){
 				this.remove();
-				console.log(this);
 			});
 
 			})
@@ -415,11 +414,24 @@
 				 	canji--;
 				 	beidan = frames;
 				 	//消除所有弹幕动画
-				 	$(temp).remove();
-				 	// for(var j = 0;j < temp.length;j++）
-				 	// var temps = "<div class = 'guangyun'></div>";
-				 	// temps = temps.appendTo($(".road"));
-				 	// temps[0].style.top = 
+				 	for(var j = 0;j < $(".enemy").length;j = 0 ){
+				 	var temps = "<div class = 'guangyun'></div>";
+				 	temps = $(temps).appendTo($(".road"));
+				 	temps[0].style.top = $(temp)[j].style.top;
+				 	temps[0].style.left = $(temp)[j].style.left;
+				 	temps[0].style.height = "20px";
+				 	temps[0].style.width = "20px";
+				 	temps[0].style.opacity = 0.8;
+				 	temps.animate({
+				 		"width" : "1px",
+				 		"height" : "1px",
+						"opacity" : 1
+				 	},1000,function(){
+				 		this.remove();
+				 	});
+				 	console.log(j);
+				 	$(temp)[j].remove();
+				 }
 				};
 			}
 			//自机狙判定
