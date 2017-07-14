@@ -64,6 +64,17 @@
 				top : 100px;
 				left : 0px;
 			}
+			.guangyun{
+				position : absolute;
+				top : 0;
+				left : 0;
+				width : 50px;
+				height : 50px;
+				background-image : url(image/prebullet_puple.png);
+				background-repeat: no-repeat;
+				background-size : 100% 100%;
+				opacity : 0.1;
+			}
 			.diji{
 				position : absolute;
 				background-image : url("image/xiaotong.png");
@@ -256,7 +267,6 @@
 					zijinum ++;
 					ziji_temp_y = (parseInt(ziji_temp_y) - 1000) + "px";
 
-					//console.log(zijidanssss);
 					$(zijidanssss).animate({
 						left : ziji_temp.style.left,
 						top : ziji_temp_y
@@ -274,21 +284,33 @@
 			var x = Math.random() * 800;
 			var y = Math.random() * 100;
 
+			var temps = "<div class  = 'guangyun'></div>";
+			temps = $(temps).appendTo($(".road"));
+			temps[0].style.left = x + "px";
+			temps[0].style.top = y + "px";
+			temps.animate({
+				"width" : "20px",
+				"height" : "20px",
+				"opacity" : 1
+			},500,function(){
+				this.remove();
+				//console.log(this);
+
 			var temp = "<div class = 'enemy'></div>"
 			temp = $(temp).appendTo($(".road"));
 			temp[0].style.left = x + "px";
 			temp[0].style.top = y + "px";
 			if(frequency > 5){
 				frequency -= 3;
-				//console.log(frequency);
 			}
 			temp.animate({
 				"top" : "1000px"
 			},5000,function(){
 				this.remove();
+				console.log(this);
 			});
 
-
+			})
 		}
 		}
 
@@ -392,7 +414,12 @@
 				if((leftjudge_m - leftjudge_e) < 16 && (leftjudge_m - leftjudge_e) > (-20) && (topjudge_m - topjudge_e) <16 && (topjudge_m - topjudge_e) > (-20) /*&&(frames - beidan) > 300*/){
 				 	canji--;
 				 	beidan = frames;
+				 	//消除所有弹幕动画
 				 	$(temp).remove();
+				 	// for(var j = 0;j < temp.length;j++）
+				 	// var temps = "<div class = 'guangyun'></div>";
+				 	// temps = temps.appendTo($(".road"));
+				 	// temps[0].style.top = 
 				};
 			}
 			//自机狙判定
