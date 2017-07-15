@@ -75,6 +75,28 @@
 				background-size : 100% 100%;
 				opacity : 0.1;
 			}
+			.guangyunlan{
+				position : absolute;
+				top : 0;
+				left : 0;
+				width : 50px;
+				height : 50px;
+				background-image : url(image/prebullet_blue.png);
+				background-repeat: no-repeat;
+				background-size : 100% 100%;
+				opacity : 0.1;
+			}
+			.guangyunhong{
+				position : absolute;
+				top : 0;
+				left : 0;
+				width : 50px;
+				height : 50px;
+				background-image : url(image/prebullet_red.png);
+				background-repeat: no-repeat;
+				background-size : 100% 100%;
+				opacity : 0.1;
+			}
 			.diji{
 				position : absolute;
 				background-image : url("image/xiaotong.png");
@@ -452,7 +474,7 @@
 				xiaoyeyou();
 			}
 		}
-			if(frames % 200 < 70 && frames % 3 == 0 && frames % 200 > 0 && boss == 2 && hp < 1000){
+			if(frames % 200 < 70 && frames % 3 == 0 && frames % 200 > 0 && boss == 2 && hp < 750){
 				xiaoyejuewang();
 		}
 		}
@@ -461,7 +483,7 @@
 				var x2 = parseInt(Math.random() * 800);
 				var y2 = parseInt(Math.random() * 100);
 				var guangyunshang = document.createElement("div");
-				guangyunshang.className = "guangyun";
+				guangyunshang.className = "guangyunlan";
 				guangyunshang.style.left = x2 + "px";
 				guangyunshang.style.top = y2 + "px";
 				$(".road").append(guangyunshang);
@@ -495,7 +517,7 @@
 				var x2 = parseInt(Math.random() * 50);
 				var y2 = parseInt(Math.random() * 650);
 				var guangyunshang = document.createElement("div");
-				guangyunshang.className = "guangyun";
+				guangyunshang.className = "guangyunhong";
 				guangyunshang.style.left = x2 + "px";
 				guangyunshang.style.top = y2 + "px";
 				$(".road").append(guangyunshang);
@@ -563,7 +585,7 @@
 				var x2 = parseInt($(".diji").position().left);
 				var y2 = parseInt($(".diji").position().top);
 				var guangyunshang = document.createElement("div");
-				guangyunshang.className = "guangyun";
+				guangyunshang.className = "guangyunlan";
 				guangyunshang.style.left = x2 + "px";
 				guangyunshang.style.top = y2 + "px";
 				$(".road").append(guangyunshang);
@@ -690,7 +712,7 @@
 						//消除上弹
 						for(var j = 0; j< $(".feidaoshang").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunlan";
 							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
 							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
 							temp.style.width = "18px";
@@ -707,7 +729,7 @@
 					}
 						for(var j = 0; j< $(".feidaozuo").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunhong";
 							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
 							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
 							temp.style.opacity = 1;
@@ -760,7 +782,7 @@
 						//消除上弹
 						for(var j = 0; j< $(".feidaoshang").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunlan";
 							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
 							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
 							temp.style.width = "18px";
@@ -777,7 +799,7 @@
 					}
 						for(var j = 0; j< $(".feidaozuo").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunhong";
 							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
 							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
 							temp.style.opacity = 1;
@@ -831,7 +853,7 @@
 						//消除上弹
 						for(var j = 0; j< $(".feidaoshang").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunlan";
 							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
 							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
 							temp.style.width = "18px";
@@ -848,7 +870,7 @@
 					}
 						for(var j = 0; j< $(".feidaozuo").length ; j=0){
 							var temp = document.createElement("div");
-							temp.className = "guangyun";
+							temp.className = "guangyunhong";
 							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
 							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
 							temp.style.opacity = 1;
@@ -916,7 +938,7 @@
 				hp += 100;
 				var tempsss = setInterval(function(){
 					hp += 10;
-					if(hp > 3000)
+					if(hp > 1500)
 						clearInterval(tempsss);
 				},10);
 				boss = 2;
