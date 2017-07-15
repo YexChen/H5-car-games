@@ -668,8 +668,65 @@
 			}
 			}
 			//咲夜专用碰撞
-			funciton collision2(){
-				
+			function collision2(){
+				var collision_m_x = $(".car").position().left;
+				var collision_m_width = $(".car").width();
+				var collision_m_height = $(".car").height();
+				var collision_m_y = $(".car").position().top;
+				var toplength = document.getElementsByClassName("feidaoshang").length;
+				//判定上飞到碰撞（包括绝望弹幕？是的：不是）
+				for(var i = 0; i < toplength;i ++ ){
+					console.log("i" + i + "    " + "toplength" + toplength);
+					var collision_et_y = $(".feidaoshang").eq(i).position().top;
+					var collision_et_x = $(".feidaoshang").eq(i).position().left;
+					var collision_e_width = $(".feidaoshang").eq(i).width();
+					var collision_e_height = $(".feidaoshang").eq(i).height();
+					if((collision_et_x - collision_m_x) < collision_m_width && (collision_m_x - collision_et_x) < collision_e_width && (collision_et_y - collision_m_y) < collision_m_height && (collision_m_y - collision_et_y) < collision_e_height){
+						//还原i的值
+						i = 0;
+						//判定中弹，开始消弹
+						//创建消弹特效
+						//消除上弹
+						console.log("中弹判定！");
+						for(var j = 0; j< $(".feidaoshang").length ; j++){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
+							$(".road").append(temp);
+							$(".feidaoshang").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000)
+					}
+						for(var j = 0; j< $(".feidaozuo").length ; j++){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
+							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
+							$(".road").append(temp);
+							$(".feidaozuo").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000)
+					}
+						for(var j = 0; j< $(".feidaoyou").length ; j++){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoyou").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoyou").eq(j).position().top + "px";
+							$(".road").append(temp);
+							$(".feidaoyou").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000)
+					}
+
+					} 
+				}
 			}
 		//跑动的跑道
 		var running = function(){
