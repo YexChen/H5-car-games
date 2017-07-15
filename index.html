@@ -196,6 +196,7 @@
 	</head>
 
 	<body>
+		<audio src = "bgm/qufangzi.mp3" autoplay="true" id = "music"></audio>
 		<div class = "road">
 			<div class = "jishu"></div>
 <!-- 			<div class = "track"></div>
@@ -215,6 +216,7 @@
 			<br>
 			<p><span style = "color : #D3432E">按住</span>方向键+shift低速移动</p>
 			<p>被弹有消弹,加油喔~</p>
+			<p>内置有评分系统，看你能不能拿到“鬼神”称号吧！</p>
 			<p>残机数:<p class = "canji">100</p></p>
 		</div>
 		<div class = "hps">
@@ -952,6 +954,8 @@
 						"top" : "200px"
 					},3000)
 				});
+				//切换bgm
+				document.getElementById("music").src = "bgm/xiaoye.mp3";
 				//改变背景图片
 				$(".road").css({"backgroundImage" : "url('image/fsd.gif')"});
 				//boss立绘宣言
