@@ -452,7 +452,7 @@
 				xiaoyeyou();
 			}
 		}
-			if(frames % 200 < 70 && frames % 200 > 0 && boss == 2 && hp < 1000){
+			if(frames % 200 < 70 && frames % 3 == 0 && frames % 200 > 0 && boss == 2 && hp < 1000){
 				xiaoyejuewang();
 		}
 		}
@@ -676,57 +676,215 @@
 				var toplength = document.getElementsByClassName("feidaoshang").length;
 				//判定上飞到碰撞（包括绝望弹幕？是的：不是）
 				for(var i = 0; i < toplength;i ++ ){
-					console.log("i" + i + "    " + "toplength" + toplength);
 					var collision_et_y = $(".feidaoshang").eq(i).position().top;
 					var collision_et_x = $(".feidaoshang").eq(i).position().left;
 					var collision_e_width = $(".feidaoshang").eq(i).width();
 					var collision_e_height = $(".feidaoshang").eq(i).height();
 					if((collision_et_x - collision_m_x) < collision_m_width && (collision_m_x - collision_et_x) < collision_e_width && (collision_et_y - collision_m_y) < collision_m_height && (collision_m_y - collision_et_y) < collision_e_height){
 						//还原i的值
-						i = 0;
+						i = toplength;
+						//残机减少
+						canji--;
 						//判定中弹，开始消弹
 						//创建消弹特效
 						//消除上弹
-						console.log("中弹判定！");
-						for(var j = 0; j< $(".feidaoshang").length ; j++){
+						for(var j = 0; j< $(".feidaoshang").length ; j=0){
 							var temp = document.createElement("div");
 							temp.className = "guangyun";
 							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
 							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
+							temp.style.width = "18px";
+							temp.style.height = "33px";
+							temp.style.opacity = 1;
 							$(".road").append(temp);
 							$(".feidaoshang").eq(j).remove();
 							$(temp).animate({
 								"width" : "0px",
 								"height" : "0px"
-							},1000)
+							},1000,function(){
+								this.remove();
+							})
 					}
-						for(var j = 0; j< $(".feidaozuo").length ; j++){
+						for(var j = 0; j< $(".feidaozuo").length ; j=0){
 							var temp = document.createElement("div");
 							temp.className = "guangyun";
 							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
 							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
+							temp.style.opacity = 1;
+							temp.style.width = "34px";
+							temp.style.height = "16px";
 							$(".road").append(temp);
 							$(".feidaozuo").eq(j).remove();
 							$(temp).animate({
 								"width" : "0px",
 								"height" : "0px"
-							},1000)
+							},1000,function(){
+								this.remove();
+							})
 					}
-						for(var j = 0; j< $(".feidaoyou").length ; j++){
+						for(var j = 0; j< $(".feidaoyou").length ; j=0){
 							var temp = document.createElement("div");
 							temp.className = "guangyun";
 							temp.style.left = $(".feidaoyou").eq(j).position().left + "px";
 							temp.style.top = $(".feidaoyou").eq(j).position().top + "px";
+							temp.style.width = "32px";
+							temp.style.height = "20px";
+							temp.style.opacity = 1;
 							$(".road").append(temp);
 							$(".feidaoyou").eq(j).remove();
 							$(temp).animate({
 								"width" : "0px",
 								"height" : "0px"
-							},1000)
+							},1000,function(){
+								this.remove();
+							})
 					}
 
 					} 
 				}
+				//判定左弹碰撞
+				if(feidaocount - 21 > 0){
+					var leftlength = document.getElementsByClassName("feidaozuo").length;
+				for(var i = 0; i < leftlength;i ++ ){
+					var collision_et_y = $(".feidaozuo").eq(i).position().top;
+					var collision_et_x = $(".feidaozuo").eq(i).position().left;
+					var collision_e_width = $(".feidaozuo").eq(i).width();
+					var collision_e_height = $(".feidaozuo").eq(i).height();
+					if((collision_et_x - collision_m_x) < collision_m_width && (collision_m_x - collision_et_x) < collision_e_width && (collision_et_y - collision_m_y) < collision_m_height && (collision_m_y - collision_et_y) < collision_e_height){
+						//还原i的值
+						i = leftlength;
+						//减少残机
+						canji--;
+						//判定中弹，开始消弹
+						//创建消弹特效
+						//消除上弹
+						for(var j = 0; j< $(".feidaoshang").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
+							temp.style.width = "18px";
+							temp.style.height = "33px";
+							temp.style.opacity = 1;
+							$(".road").append(temp);
+							$(".feidaoshang").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+						for(var j = 0; j< $(".feidaozuo").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
+							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
+							temp.style.opacity = 1;
+							temp.style.width = "34px";
+							temp.style.height = "16px";
+							$(".road").append(temp);
+							$(".feidaozuo").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+						for(var j = 0; j< $(".feidaoyou").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoyou").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoyou").eq(j).position().top + "px";
+							temp.style.width = "32px";
+							temp.style.height = "20px";
+							temp.style.opacity = 1;
+							$(".road").append(temp);
+							$(".feidaoyou").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+
+					} 
+				}
+			}
+			//判定右弹
+				if(feidaocount - 26 > 0){
+					var rightlength = document.getElementsByClassName("feidaoyou").length;
+					for(var i = 0; i < rightlength;i ++ ){
+						var collision_et_y = $(".feidaoyou").eq(i).position().top;
+						var collision_et_x = $(".feidaoyou").eq(i).position().left;
+						var collision_e_width = $(".feidaoyou").eq(i).width();
+						var collision_e_height = $(".feidaoyou").eq(i).height();
+						if((collision_et_x - collision_m_x) < collision_m_width && (collision_m_x - collision_et_x) < collision_e_width && (collision_et_y - collision_m_y) < collision_m_height && (collision_m_y - collision_et_y) < collision_e_height){
+						//还原i的值
+						i = leftlength;
+						//减少残机
+						canji--;
+						//判定中弹，开始消弹
+						//创建消弹特效
+						//消除上弹
+						for(var j = 0; j< $(".feidaoshang").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoshang").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoshang").eq(j).position().top + "px";
+							temp.style.width = "18px";
+							temp.style.height = "33px";
+							temp.style.opacity = 1;
+							$(".road").append(temp);
+							$(".feidaoshang").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+						for(var j = 0; j< $(".feidaozuo").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaozuo").eq(j).position().left + "px";
+							temp.style.top = $(".feidaozuo").eq(j).position().top + "px";
+							temp.style.opacity = 1;
+							temp.style.width = "34px";
+							temp.style.height = "16px";
+							$(".road").append(temp);
+							$(".feidaozuo").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+						for(var j = 0; j< $(".feidaoyou").length ; j=0){
+							var temp = document.createElement("div");
+							temp.className = "guangyun";
+							temp.style.left = $(".feidaoyou").eq(j).position().left + "px";
+							temp.style.top = $(".feidaoyou").eq(j).position().top + "px";
+							temp.style.width = "32px";
+							temp.style.height = "20px";
+							temp.style.opacity = 1;
+							$(".road").append(temp);
+							$(".feidaoyou").eq(j).remove();
+							$(temp).animate({
+								"width" : "0px",
+								"height" : "0px"
+							},1000,function(){
+								this.remove();
+							})
+					}
+
+					} 
+				}
+			}
+			//
 			}
 		//跑动的跑道
 		var running = function(){
@@ -762,7 +920,7 @@
 						clearInterval(tempsss);
 				},10);
 				boss = 2;
-				//小桶飞出战场并且销毁
+				//小桶飞出战场并且销毁(其实只是换个皮肤)
 				$(".diji").animate({
 					"top" : "-100px",
 					"left" : "50%" 
@@ -772,6 +930,8 @@
 						"top" : "200px"
 					},3000)
 				});
+				//改变背景图片
+				$(".road").css({"backgroundImage" : "url('image/fsd.gif')"});
 				//boss立绘宣言
 		// 		$(".lihui").animate({
 		// 			"top" : "0%",
@@ -792,7 +952,7 @@
 	}
 		//游戏结束
 		function gameover(){
-			if(hp < 10){
+			if(hp < 10 && boss == 2){
 				//cancel出现了兼容问题
 				cancelAnimationFrame(myRequest);
 				gameovers = true;
@@ -842,7 +1002,8 @@
 				//血条动画
 				hpanimation();
 				//如果血条降到0停止游戏
-				//gameover();
+				gameover();
+				//开始第二轮
 				gamecontinue();
 				//判断游戏是否结束
 				if(!gameovers)
